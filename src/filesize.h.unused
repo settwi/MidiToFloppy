@@ -1,0 +1,9 @@
+#ifndef ___FILESIZE_H
+#define ___FILESIZE_H
+
+#include <sys/stat.h>
+#include <sys/types.h>
+
+off_t fsize(const char *filename);
+
+#endif
