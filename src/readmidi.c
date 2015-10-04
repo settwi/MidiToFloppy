@@ -30,11 +30,11 @@ MidiInfo *readMidi(FILE *mf, FILE *out, FILE *lf)
     mi->PPQN = bytesTo16(buf[0], buf[1]);    
     mi->tickTime = mi->usecsPerQN / mi->PPQN;
 
-    if (mi->PPQN & 0x8000)
+  /*if (mi->PPQN & 0x8000)
         fprintf(stderr, "Cannot currently read SMPTE format files.");
-        /*readSMPTE(mi)*/
-    else
-        readTicks(mi);
+        readSMPTE(mi)
+    else */
+    readTicks(mi);
 
     return mi;
 }
