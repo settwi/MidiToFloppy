@@ -15,7 +15,7 @@
 int main(int argc, char *argv[])
 {
     if (argc != 3) {
-        fprintf(stdout, "USAGE: MidiToFloppy <path to midi> <name of output array>\n");
+        fprintf(stdout, "USAGE: ./mtof <path to midi> <name of output array>\n");
         exit(EXIT_FAILURE);
     }
 
