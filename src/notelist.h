@@ -21,7 +21,7 @@ typedef struct NoteList {
 
 NoteList *NoteList_add(NoteList *, uint8_t, size_t);
 NoteList *NoteList_find(NoteList *, uint8_t);
-NoteList *NoteList_firstOn(NoteList *);
+uint8_t NoteList_maxChannel(NoteList *);
 void NoteList_print(NoteList *, FILE *);
 void NoteList_destroy(NoteList **);
 
