@@ -41,15 +41,11 @@ void readTicks(MidiInfo *mi)
             currentStatus = *++pos;
 
             // Running status check
-            if ((runningStatus = (currentStatus < 0x80))) {
-                fprintf(mi->lf,
-                        "RUNNING STATUS\nCurrent: %u\nPrevious: %u\n",
-                        currentStatus, previousStatus);
+            if ((runningStatus = (currentStatus < 0x80)))
                 currentStatus = previousStatus;
-            }
 
             // Passed by address in case of 0-velocity NOTEON message
-            pos = readEvent(currentStatus, /*previousStatus,*/
+            pos = readEvent(currentStatus,
                             pos, runningStatus, mi);
 
             previousStatus = currentStatus;

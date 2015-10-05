@@ -27,7 +27,7 @@ void writeMidi(MidiInfo *mi, const char *name)
 
         do {
             if (i % 2 == 0) fprintf(mi->out, "\n\t");
-            
+
             if (nl->channel == drive)
                 fprintf(mi->out, "{ %s%" PRIu8 ", %zu, %" PRIu8 " }, ",
                         notes[nl->note % 12],
@@ -38,7 +38,7 @@ void writeMidi(MidiInfo *mi, const char *name)
                 fprintf(mi->out, "{ REST, %zu, REST }, ",
                         nl->length * mi->tickTime);
             else
-                --i;
+                continue;
 
         } while(++i, (nl = nl->next));
         

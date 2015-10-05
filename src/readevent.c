@@ -128,7 +128,7 @@ uint8_t *readEvent(uint8_t currentStatus, uint8_t *pos, bool runningStatus, Midi
             
             rc = driveActivate(currentNote);
             if (rc != 0)
-                die(mi, "driveActivate: Too many drives");
+                die(mi, "\ndriveActivate: Too many drives");
 
             fprintf(mi->lf, "Channel mod: %" PRIu8 "\n",
                     currentNote->channel);
