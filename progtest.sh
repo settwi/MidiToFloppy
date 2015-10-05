@@ -10,7 +10,7 @@ fi
 
 make $CLEANOUTS
 
-for d in */; do
+for d in ./music/**/; do
     for f in $d*.mid; do
         if [ -e "$f" ]; then
             ./mtof $f $(basename $f) 
