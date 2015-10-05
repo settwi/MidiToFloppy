@@ -14,7 +14,7 @@ midi: $(OBJS)
 	cc $(CFLAGS) $(UFLAGS) -o $(NAME) $(OBJS)
 
 cleana:
-	rm -f $(NAME) ./**/*.mid.* $(OBJS)
+	rm -f $(NAME) music/**/*.mid.* $(OBJS)
 
 clean:
-	rm -f ./**/*.mid.*
+	rm -f music/**/*.mid.*
