@@ -15,8 +15,12 @@ void writeMidi(MidiInfo *mi, const char *name)
         "AS", "B"
     };
 
-    fprintf(mi->out, "// Format is: note, length, channel\n\n");
-    
+    fprintf(mi->out,
+            "#include <stdint.h>\n\n"
+            "// Format is: note, length, channel\n\n"
+            "const uint8_t maxChannel = %" PRIu8 "\n\n",
+            maxChannel);
+
     for (uint8_t drive = 0; drive < maxChannel + 1; ++drive) {
         fprintf(mi->out,
                 "struct MidiNote %s%" PRIu8 "[] = {",
