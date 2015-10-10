@@ -1,0 +1,11 @@
+#ifndef ___NOTE_H
+#define ___NOTE_H
+
+#include <Arduino.h>
+
+typedef struct Note {
+  unsigned int freq;
+  float beats;
+} Note;
+
+#endif
