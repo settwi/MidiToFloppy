@@ -9,5 +9,6 @@
 #include "notelist.h"
 
 void writeMidi(MidiInfo *, const char *);
+NoteList *isolateDrive(NoteList *nl, uint8_t);
 
 #endif
