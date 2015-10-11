@@ -77,7 +77,7 @@ uint8_t *readEvent(uint8_t currentStatus, uint8_t *pos, bool runningStatus, Midi
                 break;
             case TICKTIME:
                 pos = readBigInt(&mi->usecsPerQN, pos, 3);
-                mi->bpm = mi->beatMultiplier * ((size_t)60000000 / (size_t)mi->usecsPerQN);
+                mi->bpm = (size_t)mi->beatMultiplier * ((size_t)60000000 / (size_t)mi->usecsPerQN);
                 mi->tickTime = (mi->usecsPerQN / mi->PPQN) / mi->beatMultiplier;
                 fprintf(mi->lf, "New Ticktime: %" PRIu32 "\nNew BPM: %" PRIu32 "\n",
                         mi->tickTime, mi->bpm);
