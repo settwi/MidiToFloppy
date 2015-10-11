@@ -6,10 +6,8 @@ void die(MidiInfo *mi, const char *msg)
         perror(msg);
     else
         fprintf(stderr, "%s\n", msg);
-    fprintf(mi->lf, "Fatal error: %s\n", msg);
-    if (mi->mf) fclose(mi->mf);
-    if (mi->out) fclose(mi->out);
-    if (mi->lf) fclose(mi->lf);
-    if (mi) free(mi);
+    if (mi && mi->lf)
+        fprintf(mi->lf, "Fatal error: %s\n", msg);
+
     exit(EXIT_FAILURE);
 }
