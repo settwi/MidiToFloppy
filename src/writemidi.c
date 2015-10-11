@@ -29,10 +29,9 @@ NoteList *isolateDrive(NoteList *nl, uint8_t drive)
                 // Point to first element, e.g. the rest one.
                 if (!base)
                     base = cur;
-                // Allocate actual note.
 
+                // Allocate actual note.
                 cur = NoteList_add(base, nl->note, 0);
-                cur->length = nl->length;
             }
             // More than one note playing at the same immediate time,
             // so allocate base by itself.
