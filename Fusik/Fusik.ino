@@ -1,57 +1,40 @@
 #include "notes.h"       // delay constants
 #include "Note.h"        // struct Note
 #include "stillalive.h"  // creates song
+
 #define create(s) create##s()
+
 const byte stepPins[] =  { 2, 4, 6, 8 };
 const byte directionPins[] = { 3, 5, 7, 9 };
 byte dir = HIGH;
-const uint16_t beat = 250;  // ms per note
+const unsigned int beat = 250;  // ms per note
 
 Note *lamb;
 Note *testScale;
 
 void createScale()
 {
-  // Need room for ending note
-  testScale = (Note *)(malloc(sizeof(Note) * 16));
+  uint8_t notes = 15;
+  
+  testScale = (Note *)malloc(sizeof(Note) * (notes + 1));
+
   uint16_t scale_freq[] = {
-  MID_C, MID_D, MID_E,
-  MID_F, MID_G, HIGH_A,
-  HIGH_B, HIGH_C, HIGH_B,
-  HIGH_A, MID_G, MID_F,
-  MID_E, MID_D, MID_C
+  C_4, D_4, E_4, F_4, G_4, A_5, B_5, C_5,
+  B_5, A_5, G_4, F_4, E_4, D_4, C_4
   };
-  for (byte i = 0; i < 16; ++i)
-    testScale[i] = { scale_freq[i], 1 };
-  testScale[15] = { 0, 0 };
+/*
+  uint16_t scale_freq[] = {
+    LOW_E, LOW_F, LOW_G,
+    LOW_G, LOW_F, LOW_E, 
+  };
+  */
+  for (byte i = 0; i < notes; ++i)
+    testScale[i] = { scale_freq[i], 5 };
+  //testScale[0].beats = 20;
+  testScale[notes] = { 0, 0 };
 }
 
-void createLamb()
-{
-  // Room for ending note
-  lamb = (Note *)malloc(sizeof(Note) * 27);
-  // index 6, 9, 12 are half-notes
-  uint16_t lambFreq[] = {
-  MID_E, MID_D, MID_C, MID_D,
-  MID_E, MID_E, MID_E,
-  MID_D, MID_D, MID_D,
-  MID_E, MID_G, MID_G,
-  MID_E, MID_D, MID_C, MID_D,
-  MID_E, MID_E, MID_E, MID_E,
-  MID_D, MID_D, MID_E, MID_D
-  };
-
-  for (byte i = 0; i < 25; ++i) {
-    if (i == 6 || i == 9 || i == 12)
-      lamb[i] = { lambFreq[i], 2 };
-    else
-      lamb[i] = { lambFreq[i], 1 };
-  }
-  lamb[25] = { MID_C, 4 };
-  lamb[26] = { 0, 0 };
-}
-
-void pulse(byte i)
+inline void pulse(byte i)
 {
   digitalWrite(stepPins[i], HIGH);
   digitalWrite(stepPins[i], LOW);
@@ -94,7 +77,7 @@ void playNote(byte i, uint16_t frequency)
   delayMicroseconds(frequency);
 }
 
-void reset(bool half)
+void reset(bool half = true)
 {
   // Pulse the pins until we're back at the beginning
   for (byte i = 0; i < 4; ++i) {
@@ -121,12 +104,12 @@ void setup()
 {
   for (byte pin = 2; pin < 10; ++pin)
     pinMode(pin, OUTPUT);
-  reset(true);
+  reset();
   create(Scale);
   playSong(testScale);
 }
 
 void loop()
 {
-  //playNote(3, MID_CS);
+  //playNote(3, G_5);
 }

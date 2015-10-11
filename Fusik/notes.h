@@ -1,31 +1,137 @@
-/* Floppy drive "notes,"
- * AKA delay in microseconds
- * between stepper motor pulses
+/*
+ * MIDI Notes of floppy frequencies.
+ * 'Author:' William Setterberg (settwi)
+ * Generated with note_convert.py
  */
 
-#ifndef ___NOTES_H
-#define ___NOTES_H
+// These values are never technically notes.
+#define REST 1
+#define DONE 0
 
-#define LOW_E 12000
-#define LOW_F 11600
-#define LOW_G 10000
-
-#define MID_A 9000
-#define MID_B 8000
-#define MID_C 7500
-#define MID_CS 7000
-#define MID_D 6700
-#define MID_E 6000
-#define MID_F 5500
-#define MID_FS 5250
-#define MID_G 5000
-
-#define HIGH_A 4500
-#define HIGH_B 4000
-#define HIGH_C 3700
-
-// These notes rely on the sound the motor creates,
-// without buzzing against the case.
-#define TOP_C 900
-
-#endif
+#define C_0 173149
+#define CS_0 163430
+#define D_0 154258
+#define DS_0 145600
+#define E_0 137428
+#define F_0 129715
+#define FS_0 122435
+#define G_0 115563
+#define GS_0 109077
+#define A_0 102955
+#define AS_0 97176
+#define B_0 91722
+#define C_1 86574
+#define CS_1 81715
+#define D_1 77129
+#define DS_1 72800
+#define E_1 68714
+#define F_1 64857
+#define FS_1 61217
+#define G_1 57781
+#define GS_1 54538
+#define A_1 51477
+#define AS_1 48588
+#define B_1 45861
+#define C_2 43287
+#define CS_2 40858
+#define D_2 38564
+#define DS_2 36400
+#define E_2 34357
+#define F_2 32429
+#define FS_2 30609
+#define G_2 28891
+#define GS_2 27269
+#define A_2 25739
+#define AS_2 24294
+#define B_2 22931
+#define C_3 21644
+#define CS_3 20429
+#define D_3 19282
+#define DS_3 18200
+#define E_3 17179
+#define F_3 16214
+#define FS_3 15304
+#define G_3 14445
+#define GS_3 13635
+#define A_3 12869
+#define AS_3 12147
+#define B_3 11465
+#define C_4 10822
+#define CS_4 10214
+#define D_4 9641
+#define DS_4 9100
+#define E_4 8589
+#define F_4 8107
+#define FS_4 7652
+#define G_4 7223
+#define GS_4 6817
+#define A_4 6435
+#define AS_4 6074
+#define B_4 5733
+#define C_5 5411
+#define CS_5 5107
+#define D_5 4821
+#define DS_5 4550
+#define E_5 4295
+#define F_5 4054
+#define FS_5 3826
+#define G_5 3611
+#define GS_5 3409
+#define A_5 3217
+#define AS_5 3037
+#define B_5 2866
+#define C_6 2705
+#define CS_6 2554
+#define D_6 2410
+#define DS_6 2275
+#define E_6 2147
+#define F_6 2027
+#define FS_6 1913
+#define G_6 1806
+#define GS_6 1704
+#define A_6 1609
+#define AS_6 1518
+#define B_6 1433
+#define C_7 1353
+#define CS_7 1277
+#define D_7 1205
+#define DS_7 1137
+#define E_7 1074
+#define F_7 1013
+#define FS_7 957
+#define G_7 903
+#define GS_7 852
+#define A_7 804
+#define AS_7 759
+#define B_7 717
+#define C_8 676
+#define CS_8 638
+#define D_8 603
+#define DS_8 569
+#define E_8 537
+#define F_8 507
+#define FS_8 478
+#define G_8 451
+#define GS_8 426
+#define A_8 402
+#define AS_8 380
+#define B_8 358
+#define C_9 338
+#define CS_9 319
+#define D_9 301
+#define DS_9 284
+#define E_9 268
+#define F_9 253
+#define FS_9 239
+#define G_9 226
+#define GS_9 213
+#define A_9 201
+#define AS_9 190
+#define B_9 179
+#define C_10 169
+#define CS_10 160
+#define D_10 151
+#define DS_10 142
+#define E_10 134
+#define F_10 127
+#define FS_10 120
