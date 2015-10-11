@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "die.h"
 #include "midiinfo.h"
 #include "notelist.h"
 #include "readmidi.h"
@@ -28,26 +29,28 @@ int main(int argc, char *argv[])
 
     FILE *lf = fopen(logName, "wb");
     if (!lf)
-        exit(EXIT_FAILURE);
+        die(NULL, "Died creating logfile");
     
     fprintf(lf, "MIDI to Floppy Decode Log for %s\n", argv[1]);
     FILE *mf = fopen(argv[1], "rb");
     if (!mf)
-        exit(EXIT_FAILURE); 
+        die(NULL, "Died creating midifile"); 
     
     FILE *out = fopen(outName, "wb");
     if (!out)
-        exit(EXIT_FAILURE);
+        die(NULL, "Died creating outfile");
     
     uint8_t buf[4] = { 0 };
     fread(buf, 4, 1, mf);   
     
     if (strncmp((char*)buf, "MThd", 4)) {
-        fprintf(stderr, "Error: Not a MIDI file.\n");
-        exit(EXIT_FAILURE);
+        die(NULL, "Not a MIDI file");
     }
 
     MidiInfo *mi = readMidi(mf, out, lf);
+    if (!mi)
+        die(mi, "Creating MidiInfo");
+    
     writeMidi(mi, argv[2]);
     NoteList_destroy(&mi->nl);
 
