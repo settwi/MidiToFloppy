@@ -86,6 +86,7 @@ void writeMidi(MidiInfo *mi, const char *name)
         size_t i = 0;
 
         nl = isolateDrive(mi->nl, drive);
+        NoteList *base = nl;
         if (!nl)
             die(mi, "Cannot isolate drive (return)");
 
@@ -105,7 +106,7 @@ void writeMidi(MidiInfo *mi, const char *name)
         
         fprintf(mi->out, "\n\t{ DONE, 0 }");
         fprintf(mi->out, "\n}\n");
-        if (nl)
-            NoteList_destroy(&nl);
+        if (base)
+            NoteList_destroy(&base);
     }
 }
