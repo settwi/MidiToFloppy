@@ -39,6 +39,13 @@ NoteList *NoteList_find(NoteList *nl, uint8_t note)
     return NULL;
 }
 
+NoteList *NoteList_last(NoteList *nl)
+{
+    while (nl && nl->next && (nl = nl->next))
+        ;
+    return nl;
+}
+
 uint8_t NoteList_maxChannel(NoteList *nl)
 {
     if (!nl) return (uint8_t)-1;
