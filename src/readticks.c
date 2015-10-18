@@ -2,6 +2,8 @@
 
 void readTicks(MidiInfo *mi)
 {
+    if (!mi) die(mi, "Failed to read MidiInfo (readTicks)");
+    
     bool runningStatus = false;
     uint8_t currentStatus = 0, previousStatus = 0,
             buf[4] = { 0 }, *trackBuf = NULL;
@@ -44,7 +46,6 @@ void readTicks(MidiInfo *mi)
             if ((runningStatus = (currentStatus < 0x80)))
                 currentStatus = previousStatus;
 
-            // Passed by address in case of 0-velocity NOTEON message
             pos = readEvent(currentStatus,
                             pos, runningStatus, mi);
 

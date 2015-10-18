@@ -21,8 +21,8 @@ if __name__ == '__main__':
     freq = 4550
 
     # Notes to go up, and down, from specified frequency
-    # This way, we have all 87 (!) MIDI notes covered.
-    up, down = 63, 63
+    # This way, we have all 127 (!) MIDI notes covered.
+    down, up = 57, 52
 
     # Starting index in list of notes
     # Default is 9 for note A0.

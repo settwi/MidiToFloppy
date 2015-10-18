@@ -26,6 +26,35 @@ NoteList *NoteList_add(NoteList *nl, uint8_t note, size_t dt)
     return nl;
 }
 
+NoteList *NoteList_insert(NoteList *b, uint8_t note, size_t length, uint8_t channel)
+{
+    if (!b) return NULL;
+    NoteList *after = b->next;
+    NoteList *toAdd = malloc(sizeof(NoteList));
+    if (!toAdd) return NULL;
+
+    toAdd->note = note;
+    toAdd->length = length;
+    toAdd->channel = channel;
+
+    b->next = toAdd;
+    toAdd->next = after;
+    return toAdd;
+}
+
+NoteList *NoteList_insertBefore(NoteList *b, uint8_t note, size_t length, uint8_t channel)
+{
+    if (!b) return NULL;
+    NoteList *before = malloc(sizeof(NoteList));
+    
+    before->note = note;
+    before->channel = channel;
+    before->length = length;
+    before->next = b;
+    
+    return before;
+}
+
 NoteList *NoteList_find(NoteList *nl, uint8_t note)
 {
     if (!nl) return NULL;
@@ -77,7 +106,8 @@ void NoteList_destroy(NoteList **nl)
 {
     if (!*nl) return;
     NoteList *toDel;
-    // Dereference double-pointer
+    // Dereference double-pointer;
+    // makes it easier to do operations
     NoteList *cur = *nl;
     while (cur) {
         toDel = cur;

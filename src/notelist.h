@@ -20,6 +20,8 @@ typedef struct NoteList {
 } NoteList;
 
 NoteList *NoteList_add(NoteList *, uint8_t, size_t);
+NoteList *NoteList_insert(NoteList *, uint8_t, size_t, uint8_t);
+NoteList *NoteList_insertBefore(NoteList *, uint8_t, size_t, uint8_t);
 NoteList *NoteList_find(NoteList *, uint8_t);
 NoteList *NoteList_last(NoteList *);
 uint8_t NoteList_maxChannel(NoteList *);

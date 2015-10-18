@@ -3,55 +3,51 @@
 NoteList *isolateDrive(NoteList *nl, uint8_t drive)
 {
     if (!nl)
-        die(NULL, "Cannot isolate drive");
+        die(NULL, "Cannot isolate drive (no notelist)");
 
-    size_t previousDT = 0;
-    NoteList *base = NULL,
-             *cur = NULL,
-             *last = NULL;
+    NoteList *t = nl,
+             *base = NULL,
+             *cur = NULL;
 
+    // March through the list and make a SEPARATE list containing
+    // only the notes with channel == drive
     do {
-        if (nl->channel == drive) {
-
-            /* This is the "rest" value.
-             * E.g., "rest for x microseconds before the note,
-             * unless the note is playing at the same time as another.
-             */
-            if (nl->DT != previousDT && drive != 0) {
-                cur = NoteList_add(
-                    base, 0, 0);
-                if (!cur)
-                    die(NULL, "Allocating a note (isolateDrive)");
-
-                cur->length = previousDT - (last ? last->DT : 0);
-                cur->channel = drive;
-
-                // Point to first element, e.g. the rest one.
-                if (!base)
-                    base = cur;
-
-                // Allocate actual note.
-                cur = NoteList_add(base, nl->note, 0);
-            }
-            // More than one note playing at the same immediate time,
-            // so allocate base by itself.
-            else if (!base) {
-                base = malloc(sizeof(NoteList));
-                if (!base)
-                    return NULL;
+        if (t->channel == drive) {
+            if (!base) {
+                base = NoteList_add(base, 0, 0);
                 cur = base;
             }
             else
-                cur = NoteList_add(cur, 0, 0);
+                cur = NoteList_add(base, 0, 0);
 
-            // Copy values and point to NULL for next element
-            *cur = *nl;
+            if (!cur)
+                return NULL;
+
+            *cur = *t;
             cur->next = NULL;
-            last = cur;
         }
-        previousDT = nl->DT;
+    } while ((t = t->next));
 
-    } while ((nl = nl->next) != NULL);
+    t = base;
+    bool first = true;
+    size_t restTime = 0;
+
+    do {
+        restTime = 0;
+        if (t->next) {
+            if (first) {
+                first = false;
+                if (t->DT != 0)
+                    restTime = t->DT;
+                base = NoteList_insertBefore(base, 0, restTime, drive);
+            }
+            else {
+                restTime = t->next->DT - (t->DT + t->length);
+                if (restTime)
+                    t = NoteList_insert(t, 0, restTime, drive);
+            }
+        }
+    } while ((t = t->next));
 
     return base;
 }
@@ -59,13 +55,11 @@ NoteList *isolateDrive(NoteList *nl, uint8_t drive)
 void writeMidi(MidiInfo *mi, const char *name)
 {
     if (!name)
-        die(mi, "Supply a valid name");
+        die(mi, "Supply a valid name (writeMidi)");
     if (!mi->nl)
-        die(mi, "No nl to print");
+        die(mi, "No nl to print (writeMidi)");
 
     uint8_t maxChannel = NoteList_maxChannel(mi->nl);
-    NoteList *nl = NULL;
-
     const char *notes[] = {
         "C", "CS", "D", "DS", "E",
         "F", "FS", "G", "GS", "A",
@@ -73,22 +67,23 @@ void writeMidi(MidiInfo *mi, const char *name)
     };
 
     fprintf(mi->out,
-            "#include <stdint.h>\n\n"
+            "#ifndef ___%s_H\n"
+            "#define ___%s_H\n\n"
+            "#include <stdint.h>\n"
+            "#include \"midinote.h\"\n\n"
             "// Format is: note, length\n\n"
-            "const uint8_t maxChannel = %" PRIu8 "\n\n",
-            maxChannel);
+            "const uint8_t maxChannel = %" PRIu8 ";\n\n",
+            name, name, maxChannel);
 
     for (uint8_t drive = 0; drive < maxChannel + 1; ++drive) {
         fprintf(mi->out,
                 "struct MidiNote %s%" PRIu8 "[] = {",
                 name, drive);
 
-        size_t i = 0;
+        NoteList *nl = isolateDrive(mi->nl, drive);
+        if (!nl) die(mi, "Cannot isolate drive");
 
-        nl = isolateDrive(mi->nl, drive);
-        NoteList *base = nl;
-        if (!nl)
-            die(mi, "Cannot isolate drive (return)");
+        size_t i = 0;
 
         do {
             if (i % 2 == 0) fprintf(mi->out, "\n\t");
@@ -104,9 +99,25 @@ void writeMidi(MidiInfo *mi, const char *name)
 
         } while(++i, (nl = nl->next));
         
-        fprintf(mi->out, "\n\t{ DONE, 0 }");
-        fprintf(mi->out, "\n}\n");
-        if (base)
-            NoteList_destroy(&base);
+        NoteList_destroy(&nl);
+
+        fprintf(mi->out, "\n\t{ DONE, DONE }");
+        fprintf(mi->out, "\n};\n");
     }
+
+    // Make final array. E.g., MidiNote **
+    fprintf(mi->out,
+            "\nMidiNote *%s[] = { ", name);
+
+    for (uint8_t drive = 0; drive < maxChannel + 1; ++drive)
+        fprintf(mi->out, "%s%" PRIu8 ", ", name, drive);
+
+    // Fill remaining spot(s) with NULL so array is
+    // NULL-terminated and 4 in length.
+    for (uint8_t drive = 0; drive < 3 - maxChannel; ++drive)
+        fprintf(mi->out, "NULL, ");
+
+    fprintf(mi->out,
+            "};\n\n"
+            "#endif");
 }

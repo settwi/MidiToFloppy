@@ -27,8 +27,7 @@ int8_t driveFree(NoteList *n)
 uint8_t *readEvent(uint8_t currentStatus, uint8_t *pos, bool runningStatus, MidiInfo *mi)
 {
     // This orients the function to
-    // work properly with a "running status" message.  
-    
+    // work properly with a "running status" message.
     if (runningStatus) --pos;
     
     int8_t rc = 0;
