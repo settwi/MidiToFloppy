@@ -19,19 +19,15 @@ NoteList *isolateDrive(NoteList *nl, uint8_t drive)
             }
             else
                 cur = NoteList_add(base, 0, 0);
-
             if (!cur)
                 return NULL;
-
             *cur = *t;
             cur->next = NULL;
         }
     } while ((t = t->next));
-
     t = base;
     bool first = true;
     size_t restTime = 0;
-
     do {
         restTime = 0;
         if (t->next) {
@@ -77,7 +73,7 @@ void writeMidi(MidiInfo *mi, const char *name)
 
     for (uint8_t drive = 0; drive < maxChannel + 1; ++drive) {
         fprintf(mi->out,
-                "struct MidiNote %s%" PRIu8 "[] = {",
+                "const uint32_t PROGMEM %s%" PRIu8 "[] = {",
                 name, drive);
 
         NoteList *nl = isolateDrive(mi->nl, drive);
@@ -89,25 +85,25 @@ void writeMidi(MidiInfo *mi, const char *name)
             if (i % 2 == 0) fprintf(mi->out, "\n\t");
 
             if (nl->note)
-                fprintf(mi->out, "{ %s_%" PRIu8 ", %zu }, ",
+                fprintf(mi->out, "%s_%" PRIu8 ", %zu,\t",
                         notes[nl->note % 12],
                         (uint8_t)(nl->note / 12 - 1),   // Suppress those warnings!
                         nl->length * mi->tickTime);
             else
-                fprintf(mi->out, "{ REST, %zu }, ",
+                fprintf(mi->out, "REST, %zu,\t\t",
                         nl->length * mi->tickTime);
 
         } while(++i, (nl = nl->next));
         
         NoteList_destroy(&nl);
 
-        fprintf(mi->out, "\n\t{ DONE, DONE }");
+        fprintf(mi->out, "\n\tDONE, DONE");
         fprintf(mi->out, "\n};\n");
     }
 
     // Make final array. E.g., MidiNote **
     fprintf(mi->out,
-            "\nMidiNote *%s[] = { ", name);
+            "\nconst uint32_t PROGMEM *const %s[] = { ", name);
 
     for (uint8_t drive = 0; drive < maxChannel + 1; ++drive)
         fprintf(mi->out, "%s%" PRIu8 ", ", name, drive);
@@ -115,7 +111,7 @@ void writeMidi(MidiInfo *mi, const char *name)
     // Fill remaining spot(s) with NULL so array is
     // NULL-terminated and 4 in length.
     for (uint8_t drive = 0; drive < 3 - maxChannel; ++drive)
-        fprintf(mi->out, "NULL, ");
+        fprintf(mi->out, "nullptr, ");
 
     fprintf(mi->out,
             "};\n\n"

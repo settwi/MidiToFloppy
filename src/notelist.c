@@ -104,6 +104,7 @@ void NoteList_print(NoteList *nl, FILE *f)
 
 void NoteList_destroy(NoteList **nl)
 {
+    if (!nl) return;
     if (!*nl) return;
     NoteList *toDel;
     // Dereference double-pointer;

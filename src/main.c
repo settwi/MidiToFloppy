@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
 #include "die.h"
 #include "midiinfo.h"
@@ -60,5 +61,6 @@ int main(int argc, char *argv[])
     if (lf) fclose(lf);
     if (mf) fclose(mf);
     if (out) fclose(out);
+
     return 0;
 }
