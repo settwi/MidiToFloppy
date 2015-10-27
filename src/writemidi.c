@@ -103,7 +103,7 @@ void writeMidi(MidiInfo *mi, const char *name)
 
     // Make final array. E.g., MidiNote **
     fprintf(mi->out,
-            "\nconst uint32_t PROGMEM *const %s[] = { ", name);
+            "\nconst uint32_t *const %s[] = { ", name);
 
     for (uint8_t drive = 0; drive < maxChannel + 1; ++drive)
         fprintf(mi->out, "%s%" PRIu8 ", ", name, drive);

@@ -7,10 +7,10 @@ def noteify(usecdelay, up, down):
     notes = [usecdelay]
 
     for i in xrange(1, up + 1):
-        notes.append(usecdelay / (pow(STEP, i)))
+        notes.append(usecdelay / pow(STEP, i))
 
     for i in xrange(1, down + 1):
-        notes.insert(0, usecdelay * (pow(STEP, i)))
+        notes.insert(0, usecdelay * pow(STEP, i))
 
     return notes
 
