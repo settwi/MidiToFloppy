@@ -44,9 +44,8 @@ int main(int argc, char *argv[])
     uint8_t buf[4] = { 0 };
     fread(buf, 4, 1, mf);   
     
-    if (strncmp((char*)buf, "MThd", 4)) {
+    if (strncmp((char*)buf, "MThd", 4))
         die(NULL, "Not a MIDI file");
-    }
 
     MidiInfo *mi = readMidi(mf, out, lf);
     if (!mi)
