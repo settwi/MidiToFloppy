@@ -11,12 +11,12 @@
 #define NUMDRIVES 4
 
 typedef struct NoteList {
-	bool accessed;
-	uint8_t note;
-	uint8_t channel;
-	size_t DT;
-	size_t length;
-	struct NoteList *next;
+    bool accessed;
+    uint8_t note;
+    uint8_t channel;
+    size_t DT;
+    size_t length;
+    struct NoteList *next;
 } NoteList;
 
 NoteList *NoteList_add(NoteList *, uint8_t, size_t);
