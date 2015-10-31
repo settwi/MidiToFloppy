@@ -1,13 +1,15 @@
 #include <Arduino.h>
-#include <avr/pgmspace.h>
-#include "notes.h"      // delay constants
 #include "midinote.h"   // struct MidiNote
 #include "playsong.h"   // function for playing songs!
+
+// Various songs which can be included
+#include "carol_of_the_bells_pn.mid.h"
 //#include "mary.mid.h"
 //#include "still_alive.mid.h"
-#include "beethoven_fur_elise.mid.h"
+//#include "still_alive_better.mid.h"
+//#include "beethoven_fur_elise.mid.h"
 
-const byte msdelay = 5;
+#define msdelay 5
 
 void reset()
 {   
@@ -38,9 +40,8 @@ void setup()
   PORTL |= 0xff;
   reset();
 
-//  Serial.begin(9600);
-
-  playSong(furElise);
+  // After inclusion, insert song name HERE
+  playSong();
 }
 
 void loop()
