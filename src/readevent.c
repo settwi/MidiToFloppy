@@ -69,7 +69,7 @@ uint8_t *readEvent(uint8_t currentStatus, uint8_t *pos, bool runningStatus, Midi
                 thirtySecondsPerQN = *(pos += 2);
                 mi->beatMultiplier = thirtySecondsPerQN / 8.0;
                 fprintf(mi->lf,
-                        "\nNew Beatmult: %2f"
+                        "New Beatmult: %2f"
                         "\nNew Timesig: %" PRIu8 "/%" PRIu8 "\n",
                         mi->beatMultiplier, numer, denom);
                 ++pos;

@@ -39,12 +39,14 @@ void readTicks(MidiInfo *mi)
             currentStatus = 0;
             
             pos = readVarQ(&mi->currentDT, pos);
-            mi->totalDeltaTime += mi->currentDT;
             currentStatus = *++pos;
 
             // Running status check
             if ((runningStatus = (currentStatus < 0x80)))
                 currentStatus = previousStatus;
+
+            if (currentStatus == NOTEON || currentStatus == NOTEOFF)
+                mi->totalDeltaTime += mi->currentDT;
 
             pos = readEvent(currentStatus,
                             pos, runningStatus, mi);

@@ -33,9 +33,10 @@ NoteList *isolateDrive(NoteList *nl, uint8_t drive)
         if (t->next) {
             if (first) {
                 first = false;
-                if (t->DT != 0)
+                if (t->DT) {
                     restTime = t->DT;
-                base = NoteList_insertBefore(base, 0, restTime, drive);
+                    base = NoteList_insertBefore(base, 0, restTime, drive);
+                }
             }
             else {
                 restTime = t->next->DT - (t->DT + t->length);
