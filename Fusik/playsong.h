@@ -5,7 +5,7 @@
 #include <avr/pgmspace.h>
 #include "midinote.h"
 #include "notes.h"
-
+//#include "notes.higher.h"
 /*              (These come in pairs)
  * direction pins : 48, 46, 44, 42
  * step pins      : 49, 47, 45, 43

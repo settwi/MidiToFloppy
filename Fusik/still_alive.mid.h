@@ -552,6 +552,6 @@ const uint32_t PROGMEM stillAlive2[] = {
 	DONE, DONE
 };
 
-const uint32_t PROGMEM *const stillAlive[] = { stillAlive0, stillAlive1, stillAlive2, nullptr, };
+const uint32_t *const stillAlive[] = { stillAlive0, stillAlive1, stillAlive2, nullptr, };
 
 #endif
