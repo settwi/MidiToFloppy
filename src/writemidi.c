@@ -102,7 +102,7 @@ void writeMidi(MidiInfo *mi, const char *name)
         fprintf(mi->out, "\n};\n");
     }
 
-    // Make final array. E.g., MidiNote **
+    // Make final array. E.g., uint_32 **
     fprintf(mi->out,
             "\nconst uint32_t *const %s[] = { ", name);
 
