@@ -1,9 +1,7 @@
 #include "playsong.h"
 //#include "mary.mid.h"
 
-byte dir = HIGH;
-
-#define DEBUG
+//byte dir = HIGH;
   
 void playSong(const uint32_t *const *song)
 {
@@ -31,6 +29,7 @@ void playSong(const uint32_t *const *song)
            isDone(freq[2], len[2]) && isDone(freq[3], len[3]))) {
     for (uint8_t d = 0; d < 4; ++d) {
       currentTime = (uint64_t)micros();
+      
       if (!isDone(freq[d], len[d])) {
           if (wt[d].nextStep < currentTime) {
             /* Need braces here because pulse is just a macro */
@@ -41,7 +40,7 @@ void playSong(const uint32_t *const *song)
         if (!wt[d].stopTime) {
           wt[d].stopTime = currentTime + (len[d] = (uint64_t)(getElement(song[d], indx[d] + 1)));
         }
-//        Serial.println((uint32_t)wt[d].stopTime);
+
         if (wt[d].stopTime < currentTime) {
           indx[d] += 2;
           wt[d].nextStep = currentTime + (freq[d] = (uint64_t)(getElement(song[d], indx[d])));

@@ -41,7 +41,7 @@ void setup()
   reset();
 
   // After inclusion, insert song name HERE
-  playSong();
+  playSong(NULL);
 }
 
 void loop()

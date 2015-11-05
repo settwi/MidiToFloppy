@@ -10,12 +10,12 @@
  * direction pins : 48, 46, 44, 42
  * step pins      : 49, 47, 45, 43
  */
+const uint8_t directionPins[] = { 42, 44, 46, 48 };
+const uint8_t stepPins[] = { 43, 45, 47, 49 };
 
 extern byte dir;
 
 #define getElement(p, i) (pgm_read_dword((p) + i))
-
-#define songIndex(p, offset) (pgm_read_word((p) + (offset)))
 
 #define isDone(freq, len) (freq == DONE && len == DONE)
 
