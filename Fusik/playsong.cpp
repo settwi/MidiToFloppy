@@ -1,7 +1,4 @@
 #include "playsong.h"
-//#include "mary.mid.h"
-
-//byte dir = HIGH;
   
 void playSong(const uint32_t *const *song)
 {
@@ -31,14 +28,14 @@ void playSong(const uint32_t *const *song)
            isDone(freq[2], len[2]) && isDone(freq[3], len[3]))) {
     for (uint8_t d = 0; d < 4; ++d) {
       currentTime = (uint64_t)micros();
-      
+
       if (!isDone(freq[d], len[d])) {
           if (wt[d].nextStep < currentTime) {
 
             if (freq[d] != REST) pulse(d);
             wt[d].nextStep = currentTime + (freq[d] = (uint64_t)(getElement(song[d], indx[d])));
           }
-        
+
         if (!wt[d].stopTime) {
           wt[d].stopTime = currentTime + (len[d] = (uint64_t)(getElement(song[d], indx[d] + 1)));
         }
