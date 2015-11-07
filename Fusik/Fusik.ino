@@ -2,12 +2,7 @@
 #include "midinote.h"   // struct MidiNote
 #include "playsong.h"   // function for playing songs!
 
-// Various songs which can be included
-#include "carol_of_the_bells_pn.mid.h"
-//#include "mary.mid.h"
-//#include "still_alive.mid.h"
-//#include "still_alive_better.mid.h"
-//#include "beethoven_fur_elise.mid.h"
+#include "songs.mid.h"
 
 #define msdelay 5
 
@@ -41,7 +36,7 @@ void setup()
   reset();
 
   // After inclusion, insert song name HERE
-  playSong(NULL);
+  playSong(pirate);
 }
 
 void loop()

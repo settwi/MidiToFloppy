@@ -5,6 +5,8 @@
   
 void playSong(const uint32_t *const *song)
 {
+  if (!song) return;
+  
   WaitTime wt[4] = { };
 
   uint32_t indx[4] = { 0 };
@@ -32,8 +34,8 @@ void playSong(const uint32_t *const *song)
       
       if (!isDone(freq[d], len[d])) {
           if (wt[d].nextStep < currentTime) {
-            /* Need braces here because pulse is just a macro */
-            if (freq[d] != REST)  { pulse(d); }
+
+            if (freq[d] != REST) pulse(d);
             wt[d].nextStep = currentTime + (freq[d] = (uint64_t)(getElement(song[d], indx[d])));
           }
         

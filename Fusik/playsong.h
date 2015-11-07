@@ -2,24 +2,21 @@
 #define ___PLAYSONG_H
 
 #include <Arduino.h>
-#include <avr/pgmspace.h>
+//#include <avr/pgmspace.h>
 #include "midinote.h"
 #include "notes.h"
 //#include "notes.higher.h"
-/*              (These come in pairs)
- * direction pins : 48, 46, 44, 42
- * step pins      : 49, 47, 45, 43
- */
+
 const uint8_t directionPins[] = { 42, 44, 46, 48 };
 const uint8_t stepPins[] = { 43, 45, 47, 49 };
 
 extern byte dir;
 
-#define getElement(p, i) (pgm_read_dword((p) + i))
+#define getElement(p, i) (pgm_read_dword_far((p) + i))
 
 #define isDone(freq, len) (freq == DONE && len == DONE)
 
-#define pulse(i) \
+#define pulse(i) do { \
   /* This switch statement changes the 
    *  direction of the drives,
    *  so they all stay in the middle.
@@ -35,7 +32,8 @@ extern byte dir;
     case 3: PORTL ^= 0b01000000; break; \
   } \
   PORTL |= _BV((i)*2 + 1); \
-  PORTL &= ~_BV((i)*2 + 1)
+  PORTL &= ~_BV((i)*2 + 1); \
+} while(0);
 
 struct WaitTime {
   uint64_t nextStep;
