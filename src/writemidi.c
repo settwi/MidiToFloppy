@@ -12,7 +12,7 @@ NoteList *isolateDrive(NoteList *nl, uint8_t drive)
     // March through the list and make a SEPARATE list containing
     // only the notes with channel == drive
     do {
-        if (t->channel == drive) {
+        if (t->channel == drive && t->note > 47) {
             if (!base) {
                 base = NoteList_add(base, 0, 0);
                 cur = base;
@@ -68,9 +68,8 @@ void writeMidi(MidiInfo *mi, const char *name)
             "#define ___%s_H\n\n"
             "#include <stdint.h>\n"
             "#include \"midinote.h\"\n\n"
-            "// Format is: note, length\n\n"
-            "const uint8_t maxChannel = %" PRIu8 ";\n\n",
-            name, name, maxChannel);
+            "// Format is: note, length\n\n",
+            name, name);
 
     for (uint8_t drive = 0; drive < maxChannel + 1; ++drive) {
         fprintf(mi->out,
