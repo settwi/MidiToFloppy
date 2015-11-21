@@ -4,15 +4,9 @@
 #include <Arduino.h>
 #include <stdint.h>
 
-
-typedef struct Note {
-  uint16_t freq;
-  float beats;
-} Note;
-
-typedef struct MidiNote {
+struct MidiNote {
   uint32_t freq;
   uint32_t len;
-} MidiNote;
+};
 
 #endif

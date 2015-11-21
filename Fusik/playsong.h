@@ -2,44 +2,33 @@
 #define ___PLAYSONG_H
 
 #include <Arduino.h>
-//#include <avr/pgmspace.h>
+#include "floppypin.h"
 #include "midinote.h"
+// Include one of these depending on the song's notes...
+// There are two files because of the physical restrictions of
+// the floppy drives.
 #include "notes.h"
 //#include "notes.higher.h"
 
-const uint8_t directionPins[] = { 42, 44, 46, 48 };
-const uint8_t stepPins[] = { 43, 45, 47, 49 };
+// In main file; needs to be accessed there
+extern FloppyPin pins[];
 
-extern byte dir;
+#define getElement(p, i) \
+  ((p) ? pgm_read_dword_far((p) + i) : DONE)
+#define isDone(freq, len) ((freq) == DONE && (len) == DONE)
 
-#define getElement(p, i) (pgm_read_dword_far((p) + i))
-
-#define isDone(freq, len) (freq == DONE && len == DONE)
+struct FloppyTime {
+  uint32_t nextStep;
+  uint32_t stopTime;
+  FloppyTime() : nextStep(0), stopTime(0) { };
+};
 
 #define pulse(i) do { \
-  /* This switch statement changes the 
-   *  direction of the drives,
-   *  so they all stay in the middle.
-   */ \
-  switch ((i)) { \
-    /* Pin 42 */ \
-    case 0: PORTL ^= 0b00000001; break; \
-    /* Pin 44 */ \
-    case 1: PORTL ^= 0b00000100; break; \
-    /* Pin 46 */ \
-    case 2: PORTL ^= 0b00010000; break; \
-    /* Pin 48 */ \
-    case 3: PORTL ^= 0b01000000; break; \
-  } \
-  PORTL |= _BV((i)*2 + 1); \
-  PORTL &= ~_BV((i)*2 + 1); \
-} while(0);
-
-struct WaitTime {
-  uint64_t nextStep;
-  uint64_t stopTime;
-  WaitTime() : nextStep(0), stopTime(0) { };
-};
+  digitalWrite(pins[i].dir, \
+               !digitalRead(pins[i].dir)); \
+  digitalWrite(pins[i].step, HIGH); \
+  digitalWrite(pins[i].step, LOW); \
+} while(0)
 
 void playSong(const uint32_t *const *);
 

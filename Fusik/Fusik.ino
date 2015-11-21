@@ -1,42 +1,53 @@
 #include <Arduino.h>
-#include "midinote.h"   // struct MidiNote
-#include "playsong.h"   // function for playing songs!
-
+#include "floppypin.h"
+#include "midinote.h"
+#include "playsong.h"
+#include "pirate.mid.h"
+#include "canon.mid.h"
 #include "songs.mid.h"
 
 #define msdelay 5
 
+FloppyPin pins[] = {
+  { 48, 49 }, { 46, 47 },
+  { 44, 45 }, { 42, 43 }
+};
+
 void reset()
-{   
-  // For some help understanding what's going on here,
-  // look up "PortManipulation Arduino"
-  PORTL ^= 0b01010101;
-    for (byte j = 0; j < 80; ++j) {
-      PORTL |= 0b10101010;
-      PORTL &= ~0b10101010;
-      delay(msdelay);
+{
+  for (byte i = 0; i < 4; ++i)
+    digitalWrite(pins[i].dir, HIGH);
+   
+  for (byte i = 0; i < 80; ++i) {
+    for (byte j = 0; j < 4; ++j) {
+      digitalWrite(pins[j].step, HIGH);
+      digitalWrite(pins[j].step, LOW);
     }
-    PORTL ^= 0b01010101;
-    for (byte j = 0; j < 40; ++j) {
-      PORTL |= 0b10101010;
-      PORTL &= ~0b10101010;
-      delay(msdelay);
+    delay(msdelay);
+  }
+  for (byte i = 0; i < 4; ++i)
+    digitalWrite(pins[i].dir, LOW);
+   
+  for (byte i = 0; i < 40; ++i) {
+    for (byte j = 0; j < 4; ++j) {
+      digitalWrite(pins[j].step, HIGH);
+      digitalWrite(pins[j].step, LOW);
     }
+    delay(msdelay);
+  }
 }
 
 void setup()
 {
   pinMode(13, OUTPUT);
-  // Configures all PORTL pins
-  // (digital pins 42 - 49 on MEGA)
-  // for output
-  DDRL |= 0xff;
-  // Starts all pins in HIGH state
-  PORTL |= 0xff;
+  // Configure floppy pins for output
+  for (byte pin = 42; pin < 50; ++pin)
+    pinMode(pin, OUTPUT);
+  
   reset();
 
   // After inclusion, insert song name HERE
-  playSong(pirate);
+  playSong(pirateFixed);
 }
 
 void loop()
