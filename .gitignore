@@ -35,3 +35,5 @@ mtof
 .DS_Store
 **/.DS_Store
 music/**/*.mid.*
+music/**/*.mid
+Fusik/*.mid.h
